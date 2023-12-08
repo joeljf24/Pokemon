@@ -1,1 +1,3 @@
-export class Pokemon {}
+export class Pokemon {
+    
+}

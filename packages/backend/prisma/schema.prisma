@@ -6,9 +6,10 @@ generator client {
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
+  // url = DATABASE_URL=mongodb://localhost:27017/pokemon
 }
 
-model Pokemon {
+model Pokemons {
   _id: String @id @default(auto()) @map("_id") @test.UUID
   id: Int
   name: String @unique
@@ -18,22 +19,28 @@ model Pokemon {
   nature: String
   height: Float?
   weight: Float?
+  moves: Moves[]
+  types: Types[]
 }
 
-model User {
+model Users {
   _id: String @id @default(auto()) @map("_id") @test.UUID
-  id:       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id: Int @default(autoincrement()) @map("_id")      
   email:    String   @unique
   username: String   @unique
   password: String
+  pokemons: Pokemon[]
+  pokedex: Pokemon[]
 }
 
 model Moves {
-  id: String @id @default(auto()) @map("_id") @test.UUID
+  _id: String @id @default(auto()) @map("_id") @test.UUID
+  id: String 
   name: String
 }
 
 model Types {
-  id: String @id @default(auto()) @map("_id") @test.UUID
+  _id: String @id @default(auto()) @map("_id") @test.UUID
+  id: String 
   name: String
 }
