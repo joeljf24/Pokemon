@@ -8,3 +8,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Pokemon {
+  _id: String @id @default(auto()) @map("_id") @test.UUID
+  id: Int
+  name: String @unique
+  image: String
+  evolution: String?
+  gender: String
+  nature: String
+  height: Float?
+  weight: Float?
+}
+
+model User {
+  _id: String @id @default(auto()) @map("_id") @test.UUID
+  id:       String   @id @default(auto()) @map("_id") @db.ObjectId
+  email:    String   @unique
+  username: String   @unique
+  password: String
+}
+
+model Moves {
+  id: String @id @default(auto()) @map("_id") @test.UUID
+  name: String
+}
+
+model Types {
+  id: String @id @default(auto()) @map("_id") @test.UUID
+  name: String
+}
