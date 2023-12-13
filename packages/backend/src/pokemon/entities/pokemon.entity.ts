@@ -3,23 +3,38 @@ import { Document } from "mongoose";
 
 @Schema()
 export class Pokemon extends Document {
+    @Prop({ unique: true, index: true})
+    id: number;
 
-    // id: string // Mongo me lo da
-    @Prop({
-        unique: true,
-        index: true,
-    })
+    @Prop({ unique: true, index: true })
     name: string;
 
-    @Prop({
-        unique: true,
-        index: true,
-    })
-    no: number;
+    @Prop()
+    image: string;
 
+    @Prop()
+    evolution: string;
+
+    @Prop()
+    gender: string;
+
+    @Prop()
+    nature: string;
+
+    @Prop()
+    height: number;
+
+    @Prop()
+    weight: number;
+
+    @Prop([String])
+    moves: string[];
+
+    @Prop([String])
+    types: string[];
+
+    @Prop({ type: [{ type: 'ObjectId', ref: 'User' }] })
+    owner: string[]; 
 }
 
-
-export const PokemonSchema = SchemaFactory.createForClass( Pokemon );
-
-
+export const PokemonSchema = SchemaFactory.createForClass(Pokemon);
