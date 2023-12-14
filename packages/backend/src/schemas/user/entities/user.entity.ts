@@ -13,6 +13,9 @@ export class User extends Document {
     @Prop()
     password: string;
 
+    @Prop()
+    isActive: boolean;
+
     @Prop([{ type: PokemonSchema }])
     pokemons: Pokemon[];
 }
