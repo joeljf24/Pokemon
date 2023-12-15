@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 const endpoint = "unstring";
 
-interface Pokemons {
+interface Pokemon {
     id: number,
     name: string,
     image: string,
@@ -10,15 +10,14 @@ interface Pokemons {
     hp: number,
     attack: string,
     defense: string,
-    getPokemons: () => Promise<void>
 }
 
-interface PokemonState {
-    pokemons: Pokemons[],
+interface PokemonStore {
+    pokemons: Pokemon[],
+    addPokemons: (data: Pokemon[]) => void;
 }
 
-export const usePokemonsStore = create(() => ({
-    getPokemons: async () => {
-        const res  = await (await fetch(`${endpoint}/pokemons`)).json()
-    }
-}))
+export const usePokemonStore = create<PokemonStore>((set) => ({
+    pokemons: [],
+    addPokemons: (data) => set((state) => ({ pokemons: [...state.pokemons, ...data] })),
+  }));
