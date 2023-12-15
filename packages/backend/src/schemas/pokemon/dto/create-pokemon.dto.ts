@@ -1,5 +1,6 @@
 import { IsString, IsInt, IsOptional, IsMongoId, IsNotEmpty, IsPositive, MinLength } from 'class-validator';
 import { UUID } from 'crypto';
+import { User } from 'src/schemas/user/entities/user.entity';
 
 export class CreatePokemonDto {
     
@@ -37,9 +38,6 @@ export class CreatePokemonDto {
     @IsOptional()
     weight: number
 
-
-    // moves: moves[]
-
-
-    // types: Types[]
+    @IsOptional()
+    owner: User
 }
