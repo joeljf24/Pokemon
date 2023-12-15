@@ -1,4 +1,5 @@
-import { IsEmail, IsString, MinLength, MaxLength, Matches } from "class-validator";
+import { IsEmail, IsString, MinLength, MaxLength, Matches, IsOptional } from "class-validator";
+import { Pokemon } from "src/schemas/pokemon/entities/pokemon.entity";
 
 export class CreateUserDto {
 
@@ -18,5 +19,8 @@ export class CreateUserDto {
     message: 'The password must have a Uppercase, lowercase letter and a number'
     })
     password: string;
+
+    @IsOptional()
+    pokemons: Pokemon
 
 }

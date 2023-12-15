@@ -2,9 +2,11 @@
 // import { ServeStaticModule } from '@nestjs/serve-static';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-import { PokemonModule } from './pokemon/pokemon.module';
-import { UserModule } from './user/user.module';
+import { PokemonModule } from './schemas/pokemon/pokemon.module';
+import { UserModule } from './schemas/user/user.module';
 
 @Module({
   imports: [
@@ -12,8 +14,7 @@ import { UserModule } from './user/user.module';
     // ServeStaticModule.forRoot({
     //   rootPath: join(__dirname,'..','public'), 
     // }),
-
-    MongooseModule.forRoot('mongodb+srv://paula:8hlHVRpbcYiENnki@pokemon.3rjmgrg.mongodb.net/Pokemon?retryWrites=true&w=majority'),
+    MongooseModule.forRoot(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@pokemon.3rjmgrg.mongodb.net/Pokemon?retryWrites=true&w=majority`),
 
     PokemonModule,
 

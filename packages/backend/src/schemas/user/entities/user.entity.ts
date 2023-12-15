@@ -13,10 +13,10 @@ export class User extends Document {
     @Prop()
     password: string;
 
-    @Prop()
+    @Prop({default: true})
     isActive: boolean;
 
-    @Prop([{ type: PokemonSchema }])
+    @Prop([{ default: [] }])
     pokemons: Pokemon[];
 }
 
