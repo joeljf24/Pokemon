@@ -14,19 +14,17 @@ export class UserService {
   ){}
 
   async create(createUserDto: CreateUserDto) {
+
     try {
-      const user = await this.userModel.create({
-        ...createUserDto,
-        pokemons: [], // Inicializa el array de pokemons como vacío al crear el usuario
-      });
+      const user = await this.userModel.create(createUserDto);
   
       return user;
+      
     } catch (error) {
       this.handleDBErros(error);
     }
   }
   
-
   private handleDBErros(error: any): never{
     if(error.code === '11000'){
       throw new BadRequestException(error.detail);
