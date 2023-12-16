@@ -1,40 +1,41 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { IsString, IsInt, IsOptional, IsMongoId, IsNotEmpty, IsPositive, MinLength, IsNumber } from 'class-validator';
+import { UUID } from 'crypto';
 
-@Schema()
-export class Pokemon extends Document {
-    @Prop({ unique: true, index: true})
+export class CreatePokemonDto {
+    
+    @IsMongoId()
+    _id: UUID;
+
+    @IsInt({ each: true }) // Apply the validation to each element in the array
+    @IsNotEmpty()
+    @IsPositive()
+    @MinLength(1)
     id: number;
 
-    @Prop({ unique: true, index: true })
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(3)
     name: string;
 
-    @Prop()
+    @IsNotEmpty()
+    @IsString()
     image: string;
 
-    @Prop()
+    @IsOptional()
+    @IsString()
     evolution: string;
 
-    @Prop()
+    @IsString()
     gender: string;
 
-    @Prop()
+    @IsString()
     nature: string;
 
-    @Prop()
+    @IsOptional()
+    @IsNumber() // Change to IsNumber for numeric values
     height: number;
 
-    @Prop()
+    @IsOptional()
+    @IsNumber() // Change to IsNumber for numeric values
     weight: number;
-
-    @Prop([String])
-    moves: string[];
-
-    @Prop([String])
-    types: string[];
-
-    @Prop({ type: 'ObjectId', ref: 'User',  default: [] })
-    owner: string;
 }
-
-export const PokemonSchema = SchemaFactory.createForClass(Pokemon);

@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { Pokemon, PokemonSchema } from "../../pokemon/entities/pokemon.entity"; // Import the Pokemon schema
 
 @Schema()
 export class User extends Document {
@@ -16,8 +15,6 @@ export class User extends Document {
     @Prop({default: true})
     isActive: boolean;
 
-    @Prop([{ default: [] }])
-    pokemons: Pokemon[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

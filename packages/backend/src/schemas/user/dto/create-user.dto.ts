@@ -1,5 +1,4 @@
-import { IsEmail, IsString, MinLength, MaxLength, Matches, IsOptional } from "class-validator";
-import { Pokemon } from "src/schemas/pokemon/entities/pokemon.entity";
+import { IsEmail, IsString, MinLength, MaxLength, Matches, IsOptional, IsArray } from "class-validator";
 
 export class CreateUserDto {
 
@@ -21,6 +20,6 @@ export class CreateUserDto {
     password: string;
 
     @IsOptional()
-    pokemons: Pokemon
-
+    @IsArray()
+    pokemons: string[]; // O el tipo correcto de los elementos en el array
 }
