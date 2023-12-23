@@ -33,8 +33,8 @@ export class Pokemon extends Document {
     @Prop([String])
     types: string[];
 
-    @Prop({ type: 'ObjectId', ref: 'User',  default: [] })
-    owner: string;
+    // @Prop({ type: 'ObjectId', ref: 'User' })
+    // owner: string[];
 }
 
 export const PokemonSchema = SchemaFactory.createForClass(Pokemon);
