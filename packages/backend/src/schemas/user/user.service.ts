@@ -1,15 +1,13 @@
-import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
 import * as bcrypt from 'bcrypt';
-
-import { User } from './entities/user.entity';
-import { validate } from 'class-validator';
 import { CreateUserDto, LoginUserDto } from './dto/index';
-
+import { User } from './entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { validate } from 'class-validator';
+import { use } from 'passport';
 
 @Injectable()
 export class UserService {
@@ -17,55 +15,67 @@ export class UserService {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
-
-
     private readonly jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-
+    
     try {
-      
       const { password, ...userData } = createUserDto;
 
-      const validationErrors = await validate(createUserDto);
-
-        if (validationErrors.length > 0) {
-          throw new BadRequestException(validationErrors.map(error => Object.values(error.constraints)).join(', '));
-        }
-
-
-      const hashedPassword = bcrypt.hashSync(password, 10);
+      // const validationErrors = await validate(createUserDto);
+      
+      // if (validationErrors.length > 0) {
+      //     throw new BadRequestException(validationErrors.map(error => Object.values(error.constraints)).join(', '));
+      //   }
 
       const user = await this.userModel.create({
         ...userData,
-        password: hashedPassword,
+        password: bcrypt.hashSync(password, 10)
       });
 
-      const savedUser = await user.save();
-      const { password: _, ...userWithoutPassword } = savedUser.toObject();
+      console.log(user);
+      delete user.password;
 
       return {
-        ...userWithoutPassword,
-        token: this.getJwtToken({ id: savedUser.id }),
+        ...user,
+        token: this.getJwtToken({ id: user.id }),
       };
-
     } catch (error) {
       this.handleDBErrors(error);
     }
-
   }
+
+  // async assignPokemonToUser(userId: string, pokemonId: string) {
+  //   try {
+  //     const user = await this.userModel.findByIdAndUpdate(
+  //       userId,
+  //       { $push: { pokemons: pokemonId } },
+  //       { new: true }
+  //     );
+  
+  //     if (!user) {
+  //       throw new NotFoundException(`User with ID ${userId} not found`);
+  //     }
+  
+  //     return user;
+  //   } catch (error) {
+  //     console.log(error);
+      
+  //   }
+  // }
+  
 
   private handleDBErrors(error: any): never {
 
-    if (error.response && error.response.message && error.response.message instanceof Array) {
-      throw new BadRequestException(error.response.message.join(', '));
-    }
+    // if (error.response ) {
+    //   throw new BadRequestException(error.response.message.join(', '));
+    // }
+    console.error(error);
     if (error.code === 11000) {
       throw new BadRequestException('Email or username already exists.');
     }
 
-    console.error(error);
 
     throw new InternalServerErrorException('Please check server logs');
 }
