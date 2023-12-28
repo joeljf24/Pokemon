@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Headers } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, LoginUserDto } from './dto/index';
-import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from './decorators/get-user.decorator';
 import { User } from './entities/user.entity';
+import { GetUser } from './decorators/index';
+import { ValidRoles } from './interfaces';
+import { Auth } from './decorators/auth.decorator';
 
 // import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -30,55 +31,16 @@ export class UserController {
   // }
 
   @Get('data')
-  @UseGuards( AuthGuard() )
-  testingPrivateRoute(
-    @Req() request: Express.Request,
-    @GetUser() user: User,
-    @GetUser('email') userEmail: string,
-    
-    // @RawHeaders() rawHeaders: string[],
-    // @Headers() headers: IncomingHttpHeaders,
+  @Auth( ValidRoles.admin )
+  privateRoute(
+    @GetUser() user: User
   ) {
-
-
-  //   return {
-  //     ok: true,
-  //     message: 'Hola Mundo Private',
-  //     user,
-  //     userEmail,
-  //     // rawHeaders,
-  //     // headers
-  //   // }
+    
+    return {
+      ok: true,
+      user
+    }
   }
-
-
-  // // @SetMetadata('roles', ['admin','super-user'])
-
-  // @Get('private2')
-  // @RoleProtected( ValidRoles.superUser, ValidRoles.admin )
-  // @UseGuards( AuthGuard(), UserRoleGuard )
-  // privateRoute2(
-  //   @GetUser() user: User
-  // ) {
-
-  //   return {
-  //     ok: true,
-  //     user
-  //   }
-  // }
-
-
-  // @Get('private3')
-  // @Auth( ValidRoles.admin )
-  // privateRoute3(
-  //   @GetUser() user: User
-  // ) {
-
-  //   return {
-  //     ok: true,
-  //     user
-  //   }
-  // }
 
 
 

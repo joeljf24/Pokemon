@@ -1,12 +1,14 @@
 [{
     "email": "jeremias_springfield@hotmail.com",
 	"username": "jereciño",
-	"password": "GatitosUwU"
+	"password": "GatitosUwU", 
+	"roles": "admin"
 },
 {
     "email": "paulitta_lok@hotmail.com",
 	"username": "paulita",
-	"password": "Quesito21"
+	"password": "Quesito21", 
+	"roles": "admin"
 },
 {
     "email": "abi_la_loka@outlook.com",
