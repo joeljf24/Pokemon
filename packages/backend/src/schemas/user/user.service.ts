@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto, LoginUserDto } from './dto/index';
 import { User } from './entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { JwtPayload } from './interfaces/index';
 import { validate } from 'class-validator';
 import { use } from 'passport';
 
@@ -34,7 +34,7 @@ export class UserService {
         password: bcrypt.hashSync(password, 10)
       });
 
-      console.log(user);
+      // console.log(user);
       delete user.password;
 
       return {
@@ -50,7 +50,6 @@ export class UserService {
   //   try {
   //     const user = await this.userModel.findByIdAndUpdate(
   //       userId,
-  //       { $push: { pokemons: pokemonId } },
   //       { new: true }
   //     );
   
@@ -68,9 +67,9 @@ export class UserService {
 
   private handleDBErrors(error: any): never {
 
-    // if (error.response ) {
-    //   throw new BadRequestException(error.response.message.join(', '));
-    // }
+    if (error.response ) {
+      throw new BadRequestException(error.response.message.join(', '));
+    }
     console.error(error);
     if (error.code === 11000) {
       throw new BadRequestException('Email or username already exists.');
