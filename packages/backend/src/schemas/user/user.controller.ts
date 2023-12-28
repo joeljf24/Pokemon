@@ -32,7 +32,7 @@ export class UserController {
 
   @Get('data')
   @Auth( ValidRoles.admin )
-  privateRoute3(
+  privateRoute(
     @GetUser() user: User
   ) {
     

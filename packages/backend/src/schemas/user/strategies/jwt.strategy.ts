@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ParseIntPipe, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -22,12 +22,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: JwtPayload): Promise<User> {
-        console.log('Validating JWT payload:', payload);
         const { id } = payload;
-        console.log(id);
         
-        const user = await this.userModel.findOne({ id: id.toString() });
-        console.log(user);
+        const user = await this.userModel.findById(id);
         
         if (!user) {
             throw new UnauthorizedException('Token not valid');
