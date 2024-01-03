@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import * as autoIncrement from 'mongoose-auto-increment';
 
 @Schema()
 export class Pokemon extends Document {
@@ -39,5 +38,3 @@ export class Pokemon extends Document {
 }
 
 export const PokemonSchema = SchemaFactory.createForClass(Pokemon);
-
-PokemonSchema.plugin(autoIncrement.plugin, { model: 'Pokemon', field: 'no', startAt: 1, incrementBy: 1 });
