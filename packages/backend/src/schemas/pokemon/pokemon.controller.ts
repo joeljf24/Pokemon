@@ -4,6 +4,7 @@ import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { Auth } from '../user/decorators';
 import { ValidRoles } from '../user/interfaces';
+import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id/parse-mongo-id.pipe';
 
 @Controller('pokemon')
 export class PokemonController {
@@ -14,22 +15,22 @@ export class PokemonController {
     return this.pokemonService.findAll();
   }
   
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pokemonService.findOne(+id);
+  //data, porque me puede traer el nombre, id o el no
+  @Get(':data')
+  findOne(@Param('data') data: string) {
+    return this.pokemonService.findOne(data);
   }
   
-  
-  @Auth(ValidRoles.user)
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePokemonDto: UpdatePokemonDto) {
-    return this.pokemonService.update(+id, updatePokemonDto);
+  @Auth(ValidRoles.user) //solo los usuarios pueden crear, modificar y borrar pokemons
+  @Patch(':data') 
+  update(@Param('data') data: string, @Body() updatePokemonDto: UpdatePokemonDto) {
+    return this.pokemonService.update(data, updatePokemonDto);
   }
   
   @Auth(ValidRoles.user)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pokemonService.remove(+id);
+  remove(@Param('id', ParseMongoIdPipe) id: string) {
+    return this.pokemonService.remove(id);
   }
 
   @Auth(ValidRoles.user)

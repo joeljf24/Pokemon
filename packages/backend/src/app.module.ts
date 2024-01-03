@@ -7,6 +7,7 @@ dotenv.config();
 
 import { PokemonModule } from './schemas/pokemon/pokemon.module';
 import { UserModule } from './schemas/user/user.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -19,6 +20,8 @@ import { UserModule } from './schemas/user/user.module';
     PokemonModule,
 
     UserModule,
+
+    CommonModule,
 
   ]
 })
