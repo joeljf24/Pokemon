@@ -3,8 +3,8 @@ import { Document } from "mongoose";
 
 @Schema()
 export class Pokemon extends Document {
-    @Prop({ unique: true, index: true})
-    id: number;
+    @Prop({ unique: true, index: true, auto: true})
+    no: number;
 
     @Prop({ unique: true, index: true })
     name: string;
